@@ -2,8 +2,8 @@
 <header class="header header--loggedIn">
     <div class="container">
         <a href="{% url 'home' %}" class="header__logo">
-            <img src="{% static 'images/codeverselogo.png' %}" />
-            <h1>StudyBuddy</h1>
+            <!-- <img src="{% static 'images/logo/logo_dark.png' %}" alt="CodeVerse" /> -->
+            <h1>CodeVerse</h1>
         </a>
         <form class="header__search" method="GET" action="{% url 'home' %}">
             <label>
@@ -13,7 +13,7 @@
                         d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z">
                     </path>
                 </svg>
-                <input name="q" placeholder="Search for posts" />
+                <input name="q" placeholder="Find your community..." />
             </label>
         </form>
         <nav class="header__menu">
@@ -22,11 +22,11 @@
             <!-- Logged In -->
             {% if request.user.is_authenticated %}
             <div class="header__user">
-                <a href="{% url 'update-user' %}">
+                <a href="{% url 'user-profile' request.user.id%}">
                     <div class="avatar avatar--medium active">
                         <img src="{{request.user.avatar.url}}" />
                     </div>
-                    <p>{{request.user.username}} <span>@{{request.user.username}}</span></p>
+                    <p>{{request.user.name}} <span>@{{request.user.username}}</span></p>
                 </a>
                 <button class="dropdown-button">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -39,7 +39,7 @@
 
             <!-- Not Logged In -->
             <a href="{% url 'login' %}">
-                <img src="{% static 'images/avatar.svg' %}" />
+                <img src="{% static 'images/avatars/default_avatar.svg' %}" />
                 <p>Login</p>
             </a>
             {% endif %}
@@ -53,7 +53,8 @@
                         </path>
                     </svg>
                     Settings</a>
-                <a href="{% url 'logout' %}" class="dropdown-link"><svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                <a href="{% url 'logout' %}" class="dropdown-link">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
                         width="32" height="32" viewBox="0 0 32 32">
                         <title>sign-out</title>
                         <path

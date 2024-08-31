@@ -1,18 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
 :root {
-  --color-main: #71c6dd;
-  --color-main-light: #e1f6fb;
-  --color-dark: #3f4156;
-  --color-dark-medium: #51546e;
-  --color-dark-light: #696d97;
-  --color-light: #e5e5e5;
-  --color-gray: #8b8b8b;
-  --color-light-gray: #b2bdbd;
-  --color-bg: #2d2d39;
-  --color-success: #5dd693;
-  --color-error: #fc4b0b;
+  --color-main: #1da1f2; /* Twitter Blue */
+  --color-main-light: #2c8ed6; /* Slightly lighter blue for accents */
+  --color-dark: #14171a; /* Dark background, close to black */
+  --color-dark-medium: #1c1f23; /* Mid-tone dark, for headers or cards */
+  --color-dark-light: #657786; /* Muted dark, less gray and more clear */
+  --color-light: #ffffff; /* White, for text and highlights */
+  --color-gray: #8899a6; /* Light gray with good visibility */
+  --color-light-gray: #aab8c2; /* Softer gray for subtle text */
+  --color-bg: #15202b; /* Main background tone */
+  --color-success: #23d160; /* Vivid green for success states */
+  --color-error: #ff4d4d; /* Clear red for errors */
 }
+
+
+
+
 
 /*========== base styles ==========*/
 
@@ -764,6 +768,11 @@ a {
   color: var(--color-gray);
   font-size: 1.2rem;
   display: block;
+}
+
+.activities__boxHeader p small {
+  color: var(--color-gray);  
+  /* display: block; */
 }
 
 .activities__boxContent {

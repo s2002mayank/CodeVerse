@@ -14,7 +14,7 @@
               </path>
             </svg>
           </a>
-          <h3>Create/Update Study channel</h3>
+          <h3>Access channel settings</h3>
         </div>
       </div>
       <div class="layout__body">
@@ -42,22 +42,7 @@
           <div class="form__group">
             <label for="channel_description">channel Description</label>
             {{form.description}}
-          </div>
-
-          <!-- <div class="form__group">
-            <label for="channel_topic">Topic</label>
-            <input required type="text" name="topic" id="channel_topic" list="topic-list" />
-            <datalist id="topic-list">
-              <select id="channel_topic">
-                <option value="">Select your topic</option>
-                <option value="Python">Python</option>
-                <option value="Django">Django</option>
-              </select>
-            </datalist>
-
-          </div> -->
-
-
+          </div>          
           <div class="form__action">
             <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
             <button class="btn btn--main" type="submit">Submit</button>

@@ -1,3 +1,5 @@
+{% load custom_filters %}
+
 <div class="activities">
     <div class="activities__header">
         <h2>Recent Activities</h2>
@@ -10,8 +12,7 @@
                     <img src="{{message.user.avatar.url}}" />
                 </div>
                 <p>
-                    @{{message.user.username}}
-                    <span>{{message.created|timesince}} ago</span>
+                    @{{message.user.username}} &nbsp;&nbsp;&nbsp;&nbsp;<small>{{message.created|custom_timesince}}</small>
                 </p>
             </a>
 
@@ -30,7 +31,7 @@
 
         </div>
         <div class="activities__boxContent">
-            <p>replied to post “<a href="{% url 'channel' message.channel.id %}">{{message.channel}}</a>”</p>
+            <p>replied to post</p><p> “<a href="{% url 'channel' message.channel.id %}">{{message.channel}}</a>”</p>
             <div class="activities__boxchannelContent">{{message.body}}</div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-
+{% include custom_filters %}
 {% block content %}
 <main class="layout">
   <div class="container">
@@ -11,8 +11,7 @@
               <title>arrow-left</title>
               <path
                 d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
-              </path>
-              </path>
+              </path>              
             </svg>
           </a>
           <h3>Recent Activities</h3>
@@ -30,7 +29,7 @@
               </div>
               <p>
                 @{{message.user}}
-                <span>{{message.created|timesince}} ago</span>
+                <span>{{message.created|custom_timesince}}</span>
               </p>
             </a>
 

@@ -2,18 +2,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.contrib.auth import authenticate, login, logout
 from .models import Channel, Topic, Message, User
 from .forms import ChannelForm, UserForm, MyUserCreationForm
 
 # Create your views here.
 
-# channels = [
-#     {'id': 1, 'name': 'Lets learn python!'},
-#     {'id': 2, 'name': 'Design with me'},
-#     {'id': 3, 'name': 'Frontend developers'},
-# ]
 
 
 def loginPage(request):
@@ -21,16 +16,18 @@ def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
 
-    if request.method == 'POST':
-        email = request.POST.get('email').lower()
+    if request.method == 'POST':                        
+        # email = request.POST.get('email').lower()
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         try:
-            user = User.objects.get(email=email)
+            # user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except:
             messages.error(request, 'User does not exist')
 
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
@@ -70,13 +67,15 @@ def home(request):
     channels = Channel.objects.filter(
         Q(topic__name__icontains=q) |
         Q(name__icontains=q) |
-        Q(description__icontains=q)
+        Q(description__icontains=q) |
+        Q(host__username__contains=q)
     )
 
-    topics = Topic.objects.all()[0:5]
+    # topics = Topic.objects.all().order_by()[0:5]
+    topics = Topic.objects.annotate(num_channels=Count('channel')).order_by('-num_channels')[:5]    
     channel_count = channels.count()
     channel_messages = Message.objects.filter(
-        Q(channel__topic__name__icontains=q))[0:3]
+        Q(channel__topic__name__icontains=q))[0:5]
 
     context = {'channels': channels, 'topics': topics,
                'channel_count': channel_count, 'channel_messages': channel_messages}
@@ -106,7 +105,10 @@ def userProfile(request, pk):
     user = User.objects.get(id=pk)
     channels = user.channel_set.all()
     channel_messages = user.message_set.all()
-    topics = Topic.objects.all()
+    # topics = Topic.objects.annotate(num_channels=Count('channel')).order_by('-num_channels')[:5]    
+    topics = Topic.objects.filter(
+        channel__host=user
+    ).distinct()
     context = {'user': user, 'channels': channels,
                'channel_messages': channel_messages, 'topics': topics}
     return render(request, 'base/profile.html', context)
@@ -120,12 +122,13 @@ def createChannel(request):
         topic_name = request.POST.get('topic')
         topic, created = Topic.objects.get_or_create(name=topic_name)
 
-        Channel.objects.create(
+        channel=Channel.objects.create(
             host=request.user,
             topic=topic,
             name=request.POST.get('name'),
-            description=request.POST.get('description'),
-        )
+            description=request.POST.get('description'),            
+        )                
+        channel.participants.add(request.user)
         return redirect('home')
 
     context = {'form': form, 'topics': topics}
@@ -138,7 +141,8 @@ def updateChannel(request, pk):
     form = ChannelForm(instance=channel)
     topics = Topic.objects.all()
     if request.user != channel.host:
-        return HttpResponse('Your are not allowed here!!')
+        messages.error(request, 'Permission not granted.')
+        return redirect(request, 'home')
 
     if request.method == 'POST':
         topic_name = request.POST.get('topic')
@@ -158,7 +162,8 @@ def deleteChannel(request, pk):
     channel = Channel.objects.get(id=pk)
 
     if request.user != channel.host:
-        return HttpResponse('Your are not allowed here!!')
+        messages.error(request, 'Permission not granted.')
+        return redirect(request, 'home')
 
     if request.method == 'POST':
         channel.delete()
@@ -171,7 +176,8 @@ def deleteMessage(request, pk):
     message = Message.objects.get(id=pk)
 
     if request.user != message.user:
-        return HttpResponse('Your are not allowed here!!')
+        messages.error(request, 'Permission not granted.')
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
 
     if request.method == 'POST':
         message.delete()
@@ -202,3 +208,7 @@ def topicsPage(request):
 def activityPage(request):
     channel_messages = Message.objects.all()
     return render(request, 'base/activity.html', {'channel_messages': channel_messages})
+
+
+def landing(request):
+    return render(request, 'landing.html', {})
