@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<main class="create-room layout">
+<main class="create-channel layout">
   <div class="container">
     <div class="layout__box">
       <div class="layout__boxHeader">
@@ -14,7 +14,7 @@
               </path>
             </svg>
           </a>
-          <h3>Create/Update Study Room</h3>
+          <h3>Create/Update Study channel</h3>
         </div>
       </div>
       <div class="layout__body">
@@ -22,10 +22,10 @@
           {% csrf_token %}
 
           <div class="form__group">
-            <label for="room_topic">Enter a Topic</label>
-            <input required type="text" value="{{room.topic.name}}" name="topic" list="topic-list" />
+            <label for="channel_topic">Enter a Topic</label>
+            <input required type="text" value="{{channel.topic.name}}" name="topic" list="topic-list" />
             <datalist id="topic-list">
-              <select id="room_topic">
+              <select id="channel_topic">
                 {% for topic in topics %}
                 <option value="{{topic.name}}">{{topic.name}}</option>
                 {% endfor %}
@@ -35,20 +35,20 @@
 
 
           <div class="form__group">
-            <label for="room_name">Room Name</label>
+            <label for="channel_name">channel Name</label>
             {{form.name}}
           </div>
 
           <div class="form__group">
-            <label for="room_description">Room Description</label>
+            <label for="channel_description">channel Description</label>
             {{form.description}}
           </div>
 
           <!-- <div class="form__group">
-            <label for="room_topic">Topic</label>
-            <input required type="text" name="topic" id="room_topic" list="topic-list" />
+            <label for="channel_topic">Topic</label>
+            <input required type="text" name="topic" id="channel_topic" list="topic-list" />
             <datalist id="topic-list">
-              <select id="room_topic">
+              <select id="channel_topic">
                 <option value="">Select your topic</option>
                 <option value="Python">Python</option>
                 <option value="Django">Django</option>

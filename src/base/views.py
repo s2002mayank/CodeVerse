@@ -4,12 +4,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
-from .models import Room, Topic, Message, User
-from .forms import RoomForm, UserForm, MyUserCreationForm
+from .models import Channel, Topic, Message, User
+from .forms import ChannelForm, UserForm, MyUserCreationForm
 
 # Create your views here.
 
-# rooms = [
+# channels = [
 #     {'id': 1, 'name': 'Lets learn python!'},
 #     {'id': 2, 'name': 'Design with me'},
 #     {'id': 3, 'name': 'Frontend developers'},
@@ -67,60 +67,60 @@ def registerPage(request):
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
-    rooms = Room.objects.filter(
+    channels = Channel.objects.filter(
         Q(topic__name__icontains=q) |
         Q(name__icontains=q) |
         Q(description__icontains=q)
     )
 
     topics = Topic.objects.all()[0:5]
-    room_count = rooms.count()
-    room_messages = Message.objects.filter(
-        Q(room__topic__name__icontains=q))[0:3]
+    channel_count = channels.count()
+    channel_messages = Message.objects.filter(
+        Q(channel__topic__name__icontains=q))[0:3]
 
-    context = {'rooms': rooms, 'topics': topics,
-               'room_count': room_count, 'room_messages': room_messages}
+    context = {'channels': channels, 'topics': topics,
+               'channel_count': channel_count, 'channel_messages': channel_messages}
     return render(request, 'base/home.html', context)
 
 
-def room(request, pk):
-    room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all()
-    participants = room.participants.all()
+def channel(request, pk):
+    channel = Channel.objects.get(id=pk)
+    channel_messages = channel.message_set.all()
+    participants = channel.participants.all()
 
     if request.method == 'POST':
         message = Message.objects.create(
             user=request.user,
-            room=room,
+            channel=channel,
             body=request.POST.get('body')
         )
-        room.participants.add(request.user)
-        return redirect('room', pk=room.id)
+        channel.participants.add(request.user)
+        return redirect('channel', pk=channel.id)
 
-    context = {'room': room, 'room_messages': room_messages,
+    context = {'channel': channel, 'channel_messages': channel_messages,
                'participants': participants}
-    return render(request, 'base/room.html', context)
+    return render(request, 'base/channel.html', context)
 
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    rooms = user.room_set.all()
-    room_messages = user.message_set.all()
+    channels = user.channel_set.all()
+    channel_messages = user.message_set.all()
     topics = Topic.objects.all()
-    context = {'user': user, 'rooms': rooms,
-               'room_messages': room_messages, 'topics': topics}
+    context = {'user': user, 'channels': channels,
+               'channel_messages': channel_messages, 'topics': topics}
     return render(request, 'base/profile.html', context)
 
 
 @login_required(login_url='login')
-def createRoom(request):
-    form = RoomForm()
+def createChannel(request):
+    form = ChannelForm()
     topics = Topic.objects.all()
     if request.method == 'POST':
         topic_name = request.POST.get('topic')
         topic, created = Topic.objects.get_or_create(name=topic_name)
 
-        Room.objects.create(
+        Channel.objects.create(
             host=request.user,
             topic=topic,
             name=request.POST.get('name'),
@@ -129,41 +129,41 @@ def createRoom(request):
         return redirect('home')
 
     context = {'form': form, 'topics': topics}
-    return render(request, 'base/room_form.html', context)
+    return render(request, 'base/channel_form.html', context)
 
 
 @login_required(login_url='login')
-def updateRoom(request, pk):
-    room = Room.objects.get(id=pk)
-    form = RoomForm(instance=room)
+def updateChannel(request, pk):
+    channel = Channel.objects.get(id=pk)
+    form = ChannelForm(instance=channel)
     topics = Topic.objects.all()
-    if request.user != room.host:
+    if request.user != channel.host:
         return HttpResponse('Your are not allowed here!!')
 
     if request.method == 'POST':
         topic_name = request.POST.get('topic')
         topic, created = Topic.objects.get_or_create(name=topic_name)
-        room.name = request.POST.get('name')
-        room.topic = topic
-        room.description = request.POST.get('description')
-        room.save()
+        channel.name = request.POST.get('name')
+        channel.topic = topic
+        channel.description = request.POST.get('description')
+        channel.save()
         return redirect('home')
 
-    context = {'form': form, 'topics': topics, 'room': room}
-    return render(request, 'base/room_form.html', context)
+    context = {'form': form, 'topics': topics, 'channel': channel}
+    return render(request, 'base/channel_form.html', context)
 
 
 @login_required(login_url='login')
-def deleteRoom(request, pk):
-    room = Room.objects.get(id=pk)
+def deleteChannel(request, pk):
+    channel = Channel.objects.get(id=pk)
 
-    if request.user != room.host:
+    if request.user != channel.host:
         return HttpResponse('Your are not allowed here!!')
 
     if request.method == 'POST':
-        room.delete()
+        channel.delete()
         return redirect('home')
-    return render(request, 'base/delete.html', {'obj': room})
+    return render(request, 'base/delete.html', {'obj': channel})
 
 
 @login_required(login_url='login')
@@ -200,5 +200,5 @@ def topicsPage(request):
 
 
 def activityPage(request):
-    room_messages = Message.objects.all()
-    return render(request, 'base/activity.html', {'room_messages': room_messages})
+    channel_messages = Message.objects.all()
+    return render(request, 'base/activity.html', {'channel_messages': channel_messages})
