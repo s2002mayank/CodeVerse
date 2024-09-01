@@ -322,7 +322,7 @@ a {
   width: 25rem;
   /* height: auto; */
   /* width: auto; */
-  /* display: none; Hide all logos by default */
+  display: none; /* Hide all logos by default */
 }
 
 /* Light mode logo */

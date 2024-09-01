@@ -2,8 +2,8 @@
 <header class="header header--loggedIn">
     <div class="container">
         <a href="{% url 'home' %}" class="header__logo">            
-            <img src="{% static 'images/logo/lightthemelogof5f5f5.jpg' %}" alt="CodeVerse" />
-            <!-- <img id="logo-dark" src="{% static 'images/logo/darkthemelogo121212.jpg' %}" alt="CodeVerse" />                         -->
+            <img id="logo-light" src="{% static 'images/logos/lightLogo.jpg' %}" alt="CodeVerse" />
+            <img id="logo-dark" src="{% static 'images/logos/darkLogo.jpg' %}" alt="CodeVerse" />                        
             <!-- <h1>CodeVerse</h1> -->
         </a>
         <form class="header__search" method="GET" action="{% url 'home' %}">
