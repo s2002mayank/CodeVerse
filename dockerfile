@@ -63,7 +63,7 @@ RUN python manage.py collectstatic --noinput
 # whitenoise -> S3
 
 # set the Django default project name
-ARG PROJ_NAME="codeverse"
+ARG PROJ_NAME="CodeVerse"
 
 # create a bash script to run the Django project
 # this script will execute at runtime when
