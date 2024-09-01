@@ -84,7 +84,7 @@ def home(request):
 
 def channel(request, pk):
     channel = Channel.objects.get(id=pk)
-    channel_messages = channel.message_set.all()
+    channel_messages = channel.message_set.all().order_by('created')
     participants = channel.participants.all()
 
     if request.method == 'POST':
