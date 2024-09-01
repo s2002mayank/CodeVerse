@@ -1,6 +1,7 @@
 # venv/
 # db.sqlite3
 **/local-cdn
+**/staticfiles
 
 # https://github.com/github/gitignore/blob/main/Python.gitignore
 

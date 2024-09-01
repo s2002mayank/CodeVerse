@@ -132,13 +132,16 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = BASE_DIR / 'static/images/avatars'
 
 
-STATIC_ROOT = BASE_DIR / 'local-cdn'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# STORAGES = {    
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
+STORAGES = {    
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
