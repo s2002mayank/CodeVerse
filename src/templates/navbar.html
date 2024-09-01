@@ -2,7 +2,7 @@
 <header class="header header--loggedIn">
     <div class="container">
         <a href="{% url 'home' %}" class="header__logo">
-            <img src="{% static 'images/logo/darkthemelogo.jpg' %}" alt="CodeVerse" />
+            <img src="{% static 'images/logo/lightthemelogof5f5f5.jpg' %}" alt="CodeVerse" />
             <!-- <h1>CodeVerse</h1> -->
         </a>
         <form class="header__search" method="GET" action="{% url 'home' %}">
@@ -16,6 +16,8 @@
                 <input name="q" placeholder="Find your community..." />
             </label>
         </form>
+        <!-- <button id="theme-toggle">Toggle Theme</button> -->
+        {% include 'light-dark-toggle.html'%}
         <nav class="header__menu">
 
 

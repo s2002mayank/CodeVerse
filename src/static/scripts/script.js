@@ -1,6 +1,20 @@
+// toggle dark-light
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleButton = document.getElementById('checkbox');
+  
+  // Load the saved theme or default to light mode
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+
+  // Toggle theme on button click
+  toggleButton.addEventListener('click', () => {
+    const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+});
 
 // Menu
-
 const dropdownMenu = document.querySelector(".dropdown-menu");
 const dropdownButton = document.querySelector(".dropdown-button");
 
