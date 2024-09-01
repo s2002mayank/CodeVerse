@@ -322,7 +322,19 @@ a {
   width: 25rem;
   /* height: auto; */
   /* width: auto; */
+  display: none; /* Hide all logos by default */
 }
+
+/* Light mode logo */
+[data-theme="light"] #logo-light {
+  display: block; /* Show light mode logo */
+}
+
+/* Dark mode logo */
+[data-theme="dark"] #logo-dark {
+  display: block; /* Show dark mode logo */
+}
+
 
 .header__logo > h1 {
   font-weight: 700;
