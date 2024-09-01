@@ -15,7 +15,7 @@ SECRET_KEY =config("DJANGO_SECRET_KEY", default=None, cast=str)
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = [
-    "https://codeverse-cokj.onrender.com",
+    "codeverse-cokj.onrender.com",
 ]
 
 if DEBUG:
