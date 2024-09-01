@@ -283,7 +283,7 @@ a {
 ================================*/
 
 .header {
-  padding: 1.5rem;
+  padding-top: 1.5rem;
   background-color: var(--color-dark);
 }
 
@@ -300,10 +300,10 @@ a {
 }
 
 .header__logo > img {
-  height: 3.2rem;
-  width: 3.2rem;
-  /* height: auto;
-  width: auto; */
+  height: 6rem;
+  width: 25rem;
+  /* height: auto; */
+  /* width: auto; */
 }
 
 .header__logo > h1 {
@@ -785,7 +785,7 @@ a {
 
 .activities__boxHeader p small {
   color: var(--color-gray);  
-  /* display: block; */
+  display: block;
 }
 
 .activities__boxContent {
