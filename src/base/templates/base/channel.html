@@ -111,12 +111,14 @@
         </div>
 
       </div>
+      {% if request.user.is_authenticated %}
       <div class="channel__message">
         <form action="" method="POST">
           {% csrf_token %}
           <input name="body" placeholder="Write your message here..." />
         </form>
       </div>
+      {% endif %}
     </div>
     <!-- channel End -->
 

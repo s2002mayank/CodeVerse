@@ -37,12 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'base',
+    'api',
+
+    # other apps
+    'rest_framework',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'base.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # django-cors-headers
+    "corsheaders.middleware.CorsMiddleware",
     # whitenoise
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -147,3 +154,5 @@ STORAGES = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_ALL_ORIGINS = True
